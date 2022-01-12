@@ -1,4 +1,7 @@
+import json
 import matplotlib.pyplot as plt
+from pathlib import Path
+from collections import OrderedDict
 
 
 def plot_data(title="label", *data_list):
@@ -26,3 +29,15 @@ def get_last_row_with(condition, df):
         if condition(row):
             return index
     return None # Condition not met on any row in entire DataFrame
+
+
+def read_json(fname):
+    fname = Path(fname)
+    with fname.open('rt') as handle:
+        return json.load(handle, object_hook=OrderedDict)
+
+
+def write_json(content, fname):
+    fname = Path(fname)
+    with fname.open('wt') as handle:
+        json.dump(content, handle, indent=4, sort_keys=False)

@@ -136,4 +136,6 @@ dmypy.json
 .vscode
 *.csv
 test_file.py
-eval_report.txt
+*.txt
+*.json
+!readme.txt
