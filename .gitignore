@@ -139,3 +139,4 @@ test_file.py
 *.txt
 *.json
 !readme.txt
+!config_example.json

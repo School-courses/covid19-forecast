@@ -1,0 +1,22 @@
+{
+    "name": "RandomForest",
+
+    "model": {
+        "type": "Model",
+        "args": {
+            "pipeline": ["ARF"]
+        }
+    },
+
+    "tuned_parameters":{
+                        "n_estimators": ["CHOICE", 5, 10, 15, 20],
+                        "aggregation_method": ["CHOICE", "mean", "median"],
+                        "random_state": ["CHOICE", 1]
+                    },
+
+    "optimizer": "OptimizerRegression",
+    "num_samples": 5,
+    "save_dir": "output/",
+    "server_address": null
+
+}
