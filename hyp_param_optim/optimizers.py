@@ -55,13 +55,13 @@ class OptimizerRegression(BaseOptimizer):
         tune.report(mean_loss=rmse)
 
     def create_train_report(self, analysis):
-        train_report = f" Best hyperparameters found were: {analysis.best_config}"
-        train_report += f"\n\n Best results all: {analysis.best_result}"
-        train_report += f"\n\n Best score: {analysis.best_result['mean_loss']}\n"
+        train_report = "Best_results:\n"
+        train_report += f"{analysis.best_result}\n\n"
+        train_report += f"Best hyperparameters found were:\n"
+        train_report += f"{analysis.best_config}\n\n"
+        train_report += f"Best score:\n"
+        train_report += f"{analysis.best_result['mean_loss']}"
         print(train_report)
-
-        self.save_report(str(analysis.best_result['mean_loss']), "accuracy_train.txt")
-
         return train_report
 
 

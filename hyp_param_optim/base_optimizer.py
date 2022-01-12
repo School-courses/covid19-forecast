@@ -19,6 +19,7 @@ class BaseOptimizer():
         analysis = self.perform_search()
         train_report = self.create_train_report(analysis)
         self.save_report(train_report, "report_train.txt")
+        self.save_report(str(analysis.best_result['mean_loss']), "loss_train.txt")
 
     def save_report(self, report, name_txt):
         save_path = os.path.join(self.save_dir, name_txt)
