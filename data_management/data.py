@@ -46,6 +46,7 @@ class Data():
             self.df_data_table.to_csv("data/data_table.csv", index=False)
         X = self.df_data_table.loc[:, self.predictors_col_names].to_numpy()
         y = self.df_data_table.loc[:, "target"].to_numpy()
+        y = np.expand_dims(y, axis = 1)
         return X, y
 
 
