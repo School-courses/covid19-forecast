@@ -8,15 +8,17 @@ from sklearn.metrics import (accuracy_score, balanced_accuracy_score,
                              classification_report, mean_absolute_error,
                              mean_squared_error)
 from sklearn.model_selection import cross_val_score
+from skmultiflow.data import DataStream
 
+from data_management.data import Data
 from hyp_param_optim.base_optimizer import BaseOptimizer
 
 
 class OptimizerRegression(BaseOptimizer):
-    def __init__(self, model, stream, config):
+    def __init__(self, model, config):
         super().__init__(model, config)
-        self.stream = stream
         self.best_config = 0
+        self.root_dir = config["root_dir"]
 
     def perform_search(self):
         algo = HyperOptSearch()
@@ -39,13 +41,23 @@ class OptimizerRegression(BaseOptimizer):
         self.best_config = analysis.best_config
         return analysis
 
+    def create_stream(self, target_label, no_hist_vals):
+        target_label = "new_cases"
+        data = Data(no_hist_vals, target_label, self.root_dir)
+        X, y = data.get_data()
+        return DataStream(X, y)
+
     def objective(self, config):
+        no_hist_vals = config["data_window_size"]
+        config.pop("data_window_size")
+        stream = self.create_stream("new_cases", no_hist_vals)
+        stream.restart()
+
         self.model.set_params(**config)
-        self.stream.restart()
 
         y_pred, y_test = [], []
-        while self.stream.has_more_samples():
-            x_t, y_t = self.stream.next_sample()
+        while stream.has_more_samples():
+            x_t, y_t = stream.next_sample()
             y_p = self.model.predict(x_t)[0]
             self.model.partial_fit(x_t, y_t)
             y_pred.append(y_p)

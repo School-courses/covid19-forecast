@@ -4,29 +4,19 @@ import glob
 import os
 
 import ray
-import sklearn.model_selection as model_selection_
-from skmultiflow.data import DataStream
 
 import hyp_param_optim.models as models_
 import hyp_param_optim.optimizers as optimizers_
-from data_management.data import Data
 from hyp_param_optim.parse_config import ConfigParser
 from utils.utils import read_json
 
 
 def main(config):
 
-    target_label = "new_cases"
-    no_hist_vals = 4
-    data = Data(no_hist_vals, target_label)
-    X, y = data.get_data()
-    stream = DataStream(X, y)
-
     model = config.init_obj('model', models_).created_model()
     Optimizer = config.import_module('optimizer', optimizers_)
 
     optim = Optimizer(model=model,
-                      stream=stream,
                       config=config)
 
     optim.optimize()

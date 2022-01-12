@@ -22,12 +22,15 @@
                         "tie_threshold": ["LOG_UNIFORM", 0.001, 0.1],
                         "leaf_prediction": ["CHOICE", "mean", "perceptron"],
                         "learning_ratio_perceptron": ["LOG_UNIFORM", 0.001, 0.1],
-                        "learning_ratio_decay": ["LOG_UNIFORM", 0.0001, 0.1]
+                        "learning_ratio_decay": ["LOG_UNIFORM", 0.0001, 0.1],
+
+                        "data_window_size": ["RAND_INT", 2, 10]
                     },
 
     "optimizer": "OptimizerRegression",
-    "num_samples": 50,
+    "num_samples": 200,
     "save_dir": "output/",
-    "server_address": null
+    "server_address": null,
+    "root_dir": "C:\\Users\\lapaj\\OneDrive\\covid19-forecast\\"
 
 }
