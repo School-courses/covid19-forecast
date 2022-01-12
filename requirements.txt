@@ -53,6 +53,7 @@ dask==2021.10.0
 debugpy @ file:///C:/ci/debugpy_1637091961445/work
 decorator @ file:///tmp/build/80754af9/decorator_1632776554403/work
 defusedxml @ file:///tmp/build/80754af9/defusedxml_1615228127516/work
+Deprecated==1.2.13
 diff-match-patch @ file:///Users/ktietz/demo/mc3/conda-bld/diff-match-patch_1630511840874/work
 distributed @ file:///C:/ci/distributed_1635968318313/work
 docutils @ file:///C:/ci/docutils_1620828264669/work
@@ -64,12 +65,15 @@ flake8 @ file:///tmp/build/80754af9/flake8_1620776156532/work
 Flask @ file:///home/ktietz/src/ci/flask_1611932660458/work
 fonttools==4.25.0
 fsspec @ file:///tmp/build/80754af9/fsspec_1636116461911/work
+future==0.18.2
 gevent @ file:///C:/ci/gevent_1628273776273/work
 glob2 @ file:///home/linux1/recipes/ci/glob2_1610991677669/work
 greenlet @ file:///C:/ci/greenlet_1628888275363/work
+grpcio==1.43.0
 h5py @ file:///C:/ci/h5py_1637120894255/work
 HeapDict @ file:///Users/ktietz/demo/mc3/conda-bld/heapdict_1630598515714/work
 html5lib @ file:///Users/ktietz/demo/mc3/conda-bld/html5lib_1629144453894/work
+hyperopt==0.2.7
 idna @ file:///tmp/build/80754af9/idna_1637925883363/work
 imagecodecs @ file:///C:/ci/imagecodecs_1635511087451/work
 imageio @ file:///tmp/build/80754af9/imageio_1617700267927/work
@@ -158,9 +162,11 @@ ply==3.11
 poyo @ file:///tmp/build/80754af9/poyo_1617751526755/work
 prometheus-client @ file:///tmp/build/80754af9/prometheus_client_1637050397234/work
 prompt-toolkit @ file:///tmp/build/80754af9/prompt-toolkit_1633440160888/work
+protobuf==3.19.3
 psutil @ file:///C:/ci/psutil_1612298199233/work
 ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
 py @ file:///tmp/build/80754af9/py_1607971587848/work
+py4j==0.10.9.3
 pycodestyle @ file:///tmp/build/80754af9/pycodestyle_1615748559966/work
 pycosat==0.6.3
 pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
@@ -196,6 +202,8 @@ qstylizer @ file:///tmp/build/80754af9/qstylizer_1617713584600/work/dist/qstyliz
 QtAwesome @ file:///tmp/build/80754af9/qtawesome_1637160816833/work
 qtconsole @ file:///tmp/build/80754af9/qtconsole_1632739723211/work
 QtPy @ file:///tmp/build/80754af9/qtpy_1629397026935/work
+ray==1.9.2
+redis==4.1.0
 regex @ file:///C:/ci/regex_1628063427816/work
 requests @ file:///tmp/build/80754af9/requests_1629994808627/work
 rope @ file:///tmp/build/80754af9/rope_1636994440010/work
@@ -231,8 +239,10 @@ SQLAlchemy @ file:///C:/ci/sqlalchemy_1638272689649/work
 statsmodels==0.12.2
 sympy @ file:///C:/ci/sympy_1635219088507/work
 tables==3.6.1
+tabulate==0.8.9
 TBB==0.2
 tblib @ file:///Users/ktietz/demo/mc3/conda-bld/tblib_1629402031467/work
+tensorboardX==2.4.1
 terminado==0.9.4
 testpath @ file:///tmp/build/80754af9/testpath_1624638946665/work
 text-unidecode @ file:///Users/ktietz/demo/mc3/conda-bld/text-unidecode_1629401354553/work

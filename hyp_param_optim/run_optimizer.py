@@ -34,7 +34,7 @@ def main(config):
 
 if __name__ == '__main__':
 
-    cfg_fname = "hyp_param_optim/configs/config_RAF.json"
+    cfg_fname = "hyp_param_optim/configs/config_example.json"
     config = read_json(cfg_fname)
     config = ConfigParser(config)
 
