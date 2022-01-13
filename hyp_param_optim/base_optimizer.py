@@ -23,6 +23,7 @@ class BaseOptimizer():
         self.root_dir = config["root_dir"]
         self.save_dir = config.save_dir
         self.target_label = "new_cases"
+        self.begin_test_date = "2021-11-06"
         self.best_config = 0
         self.config = config
 
@@ -87,9 +88,9 @@ class BaseOptimizer():
         return analysis
 
     def create_stream(self, no_hist_vals):
-        data = Data(no_hist_vals, self.target_label, self.root_dir)
-        X, y = data.get_data()
-        return DataStream(X, y)
+        data = Data(no_hist_vals, self.target_label, self.root_dir, self.begin_test_date)
+        X_train, y_train, X_test, y_test = data.get_data()
+        return DataStream(X_test, y_test), (X_train, y_train)
 
     @abstractmethod
     def objective(self, config):

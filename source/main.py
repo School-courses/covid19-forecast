@@ -1,9 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_squared_error
 from skmultiflow.data import DataStream
-from skmultiflow.lazy import KNNRegressor
 from skmultiflow.meta import AdaptiveRandomForestRegressor
 from skmultiflow.trees import (HoeffdingTreeRegressor,
                                StackedSingleTargetHoeffdingTreeRegressor,
@@ -48,10 +46,9 @@ y_test = np.array(y_test)
 print("y_pred", y_pred.shape)
 print("y_test", y_test.shape)
 
+
 """Calculate errors"""
-mse = mean_absolute_error(y_test, y_pred)
 rmse = mean_squared_error(y_test, y_pred, squared=False)
-print(f"MSE {mse}")
 print(f"RMSE: {rmse}")
 rmse_base = helpers.calculate_base_rmse(target_label)
 print(f"RRMSE: {rmse/rmse_base}")

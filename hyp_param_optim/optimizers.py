@@ -15,10 +15,11 @@ class OptimizerRegression(BaseOptimizer):
     def objective(self, config):
         no_hist_vals = config["data_window_size"]
         config.pop("data_window_size")
-        stream = self.create_stream(no_hist_vals)
+        stream, train_data = self.create_stream(no_hist_vals)
         stream.restart()
 
         self.model.set_params(**config)
+        self.model.fit(train_data[0], train_data[1])
 
         y_pred, y_test = [], []
         while stream.has_more_samples():
