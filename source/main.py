@@ -1,12 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import mean_squared_error
+from sklearn.svm import SVR
 from skmultiflow.data import DataStream
 from skmultiflow.meta import AdaptiveRandomForestRegressor
 from skmultiflow.trees import (HoeffdingTreeRegressor,
                                StackedSingleTargetHoeffdingTreeRegressor,
                                iSOUPTreeRegressor)
-from sklearn.svm import SVR
+from xgboost import XGBRegressor
+
 import utils.helpers as helpers
 import utils.utils as utils
 from data_management.data import Data
@@ -25,6 +27,7 @@ stream = DataStream(X_test, y_test)
 
 """Choose model"""
 regr = AdaptiveRandomForestRegressor(random_state=1)
+regr = helpers.MultiflowPredictorWrapper(SVR())
 
 
 """Warm start"""

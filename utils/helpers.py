@@ -1,7 +1,9 @@
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_squared_error
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 
 def create_relation_table(stream, stream_day, no_hist_vals):
@@ -50,5 +52,25 @@ class DummyRegressor():
         pass
 
 
-class flow_wrapper():
-    pass
+class MultiflowPredictorWrapper():
+    def __init__(self, model):
+        self.model = model
+        self.model = Pipeline([('scaler', StandardScaler()), ('model', self.model)])
+        self.X = None
+        self.y = None
+
+    def fit(self, X_train, y_train):
+        self.partial_fit(X_train, y_train)
+        self.model.fit(self.X, self.y)
+
+    def predict(self, X_test):
+        return self.model.predict(X_test)
+
+    def partial_fit(self, X_train, y_train):
+        if self.X is None:
+            self.X = X_train
+            self.y = y_train
+        else:
+            self.X = np.vstack([self.X, X_train])
+            self.y = np.vstack([self.y, y_train])
+
