@@ -8,7 +8,7 @@ from skmultiflow.meta import AdaptiveRandomForestRegressor
 from skmultiflow.trees import (HoeffdingTreeRegressor,
                                StackedSingleTargetHoeffdingTreeRegressor,
                                iSOUPTreeRegressor)
-
+from sklearn.svm import SVR
 import utils.helpers as helpers
 import utils.utils as utils
 from data_management.data import Data
@@ -30,6 +30,7 @@ regr = AdaptiveRandomForestRegressor(random_state=1)
 # regr = StackedSingleTargetHoeffdingTreeRegressor(random_state=1)
 regr = iSOUPTreeRegressor()
 # regr = helpers.DummyRegressor()
+# regr =
 
 
 """Partial fit and predict"""

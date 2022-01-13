@@ -4,7 +4,15 @@ from abc import abstractmethod
 
 import numpy as np
 from ray import tune
-from sklearn.utils import shuffle
+from ray.tune.schedulers import AsyncHyperBandScheduler, HyperBandScheduler
+from ray.tune.suggest import ConcurrencyLimiter
+from ray.tune.suggest.hyperopt import HyperOptSearch
+from sklearn.metrics import (accuracy_score, balanced_accuracy_score,
+                             classification_report, mean_absolute_error,
+                             mean_squared_error)
+from skmultiflow.data import DataStream
+
+from data_management.data import Data
 
 
 class BaseOptimizer():
@@ -12,7 +20,10 @@ class BaseOptimizer():
         self.model = model
         self.tuned_params = self._modify_params(config)
         self.num_samples = config["num_samples"]
+        self.root_dir = config["root_dir"]
         self.save_dir = config.save_dir
+        self.target_label = "new_cases"
+        self.best_config = 0
         self.config = config
 
     def optimize(self):
@@ -27,8 +38,14 @@ class BaseOptimizer():
             text_file.write(report)
 
     def create_train_report(self, analysis):
-        '''Should return report from training'''
-        return "Train report not configured."
+        train_report = "Best_results:\n"
+        train_report += f"{analysis.best_result}\n\n"
+        train_report += f"Best hyperparameters found were:\n"
+        train_report += f"{analysis.best_config}\n\n"
+        train_report += f"Best score:\n"
+        train_report += f"{analysis.best_result['mean_loss']}"
+        print(train_report)
+        return train_report
 
     @staticmethod
     def _modify_params(config):
@@ -48,10 +65,31 @@ class BaseOptimizer():
 
         return tuned_parameters
 
-    @abstractmethod
     def perform_search(self):
-        '''Seach of hyperparameters implemented here'''
-        raise NotImplementedError
+        algo = HyperOptSearch()
+        algo = ConcurrencyLimiter(algo, max_concurrent=10)
+
+        scheduler = HyperBandScheduler()
+        analysis = tune.run(
+            self.objective,
+            name="covid_baby",
+            search_alg=algo,
+            scheduler=scheduler,
+            resources_per_trial={"cpu":1, "gpu":0.1},
+            metric="mean_loss",
+            mode="min",
+            keep_checkpoints_num=5,
+            num_samples=self.num_samples,
+            config=self.tuned_params
+            )
+
+        self.best_config = analysis.best_config
+        return analysis
+
+    def create_stream(self, no_hist_vals):
+        data = Data(no_hist_vals, self.target_label, self.root_dir)
+        X, y = data.get_data()
+        return DataStream(X, y)
 
     @abstractmethod
     def objective(self, config):

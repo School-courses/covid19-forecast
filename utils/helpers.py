@@ -48,3 +48,7 @@ class DummyRegressor():
         return [np.sum(x)]
     def partial_fit(self, x, y):
         pass
+
+
+class flow_wrapper():
+    pass
