@@ -5,7 +5,7 @@ import pandas as pd
 
 
 class Data():
-    def __init__(self, no_hist_values, target_label, root_dir=""):
+    def __init__(self, no_hist_values, target_label, root_dir="", begin_test_date=None):
         data_daily = os.path.join(root_dir, "data/slovenia_daily.csv")
         data_weekly = os.path.join(root_dir, "data/slovenia_weekly.csv")
         self.df_daily = pd.read_csv(data_daily)
@@ -16,12 +16,13 @@ class Data():
 
         self.target_label = target_label
         self.no_hist_vals = no_hist_values
-        self.predictors_col_names = None
+        self.begin_test_date = begin_test_date
+        self.predictors_col_names = []
 
-        self.df_data_table = self.create_table()
+        self.df_data_table = self.create_base_table()
 
 
-    def create_table(self):
+    def create_base_table(self):
         list_hist_vals = []
         for timestamp in self.df_weekly['date']:
             end_date = timestamp - pd.DateOffset(6) # 6 day offset for week prediction
@@ -39,7 +40,7 @@ class Data():
 
         col_names = [f"x_{idx}" for idx in reversed(range(1, len(list_hist_vals[num])+1))]
         predictors_df = pd.DataFrame(list_hist_vals[num:], columns=col_names)
-        self.predictors_col_names = col_names
+        self.predictors_col_names.extend(col_names)
 
         df_data_table = pd.concat([date_target_df, target_df, predictors_df], axis=1)
         return df_data_table
@@ -48,9 +49,19 @@ class Data():
     def get_data(self, save=False):
         if save:
             self.df_data_table.to_csv("data/data_table.csv", index=False)
-        X = self.df_data_table.loc[:, self.predictors_col_names].to_numpy()
-        y = self.df_data_table.loc[:, "target"].to_numpy()
-        y = np.expand_dims(y, axis = 1)
-        return X, y
+
+        def convert_to_numpy(df):
+            X = df.loc[:, self.predictors_col_names].to_numpy()
+            y = df.loc[:, "target"].to_numpy()
+            y = np.expand_dims(y, axis = 1)
+            return X, y
+
+        df_train = self.df_data_table[self.df_data_table["date"] < self.begin_test_date]
+        df_test = self.df_data_table[self.df_data_table["date"] >= self.begin_test_date]
+
+        X_train, y_train = convert_to_numpy(df_train)
+        X_test, y_test = convert_to_numpy(df_test)
+
+        return X_train, y_train, X_test, y_test
 
 

@@ -16,21 +16,21 @@ from data_management.data import Data
 """define parameters"""
 target_label = "new_cases"
 no_hist_vals = 4
+begin_test_date = "2021-11-06"
 
 
 """import data and initialize stream"""
-data = Data(no_hist_vals, target_label)
-X, y = data.get_data()
-stream = DataStream(X, y)
+data = Data(no_hist_vals, target_label, begin_test_date=begin_test_date)
+X_train, y_train, X_test, y_test = data.get_data()
+stream = DataStream(X_test, y_test)
 
 
 """Choose model"""
 regr = AdaptiveRandomForestRegressor(random_state=1)
-# regr = HoeffdingTreeRegressor()
-# regr = StackedSingleTargetHoeffdingTreeRegressor(random_state=1)
-regr = iSOUPTreeRegressor()
-# regr = helpers.DummyRegressor()
-# regr =
+
+
+"""Warm start"""
+regr.fit(X_train, y_train)
 
 
 """Partial fit and predict"""
