@@ -1,14 +1,14 @@
 
-from skmultiflow.lazy import KNNRegressor
 from skmultiflow.meta import AdaptiveRandomForestRegressor
-from skmultiflow.trees import (HoeffdingTreeRegressor,
+from skmultiflow.trees import (HoeffdingAdaptiveTreeRegressor,
+                               HoeffdingTreeRegressor,
                                StackedSingleTargetHoeffdingTreeRegressor,
                                iSOUPTreeRegressor)
 
-methods_dict = {
-    'KNN': KNNRegressor,
+FORECAST_ALGO = {
     'ARF': AdaptiveRandomForestRegressor,
     'HT': HoeffdingTreeRegressor,
-    'STT': StackedSingleTargetHoeffdingTreeRegressor,
-    'SOUPTR': iSOUPTreeRegressor
+    'HAT': HoeffdingAdaptiveTreeRegressor,
+    'STTHT': StackedSingleTargetHoeffdingTreeRegressor,
+    'SOUPT': iSOUPTreeRegressor
 }

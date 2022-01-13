@@ -1,11 +1,13 @@
+import os
+
 import numpy as np
 import pandas as pd
 
 
 class Data():
     def __init__(self, no_hist_values, target_label, root_dir=""):
-        data_daily = root_dir + "data/slovenia_daily.csv"
-        data_weekly = root_dir + "data/slovenia_weekly.csv"
+        data_daily = os.path.join(root_dir, "data/slovenia_daily.csv")
+        data_weekly = os.path.join(root_dir, "data/slovenia_weekly.csv")
         self.df_daily = pd.read_csv(data_daily)
         self.df_weekly = pd.read_csv(data_weekly)
 

@@ -24,15 +24,15 @@ def main(config):
 
 if __name__ == '__main__':
 
-    cfg_fname = "hyp_param_optim/configs/config_example.json"
-    config = read_json(cfg_fname)
-    config = ConfigParser(config)
 
-    if config['server_address']:
-        ray.init(f"ray://{config['server_address']}")
-    else:
-        ray.init(configure_logging=False, object_store_memory=78643200)
-    main(config)
+    config_list = glob.glob("hyp_param_optim/configs/*.json")
+    config_list = [config_list[0]]
+
+    for cfg_fname in config_list:
+        config = read_json(cfg_fname)
+        config["num_samples"] = 1000
+        config = ConfigParser(config)
+        main(config)
 
 
 

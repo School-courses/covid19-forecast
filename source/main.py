@@ -26,9 +26,8 @@ stream = DataStream(X, y)
 
 """Choose model"""
 regr = AdaptiveRandomForestRegressor(random_state=1)
-regr = KNNRegressor()
-regr = HoeffdingTreeRegressor()
-regr = StackedSingleTargetHoeffdingTreeRegressor(random_state=1)
+# regr = HoeffdingTreeRegressor()
+# regr = StackedSingleTargetHoeffdingTreeRegressor(random_state=1)
 regr = iSOUPTreeRegressor()
 # regr = helpers.DummyRegressor()
 
