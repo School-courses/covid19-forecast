@@ -17,12 +17,12 @@ import utils.utils as utils
 from data_management.data import Data
 
 """Choose model"""
-regr = AdaptiveRandomForestRegressor(random_state=1)
+regr = AdaptiveRandomForestRegressor()
 # regr = helpers.MultiflowPredictorWrapper(SVR())
 
 
 """Set optimized parameters"""
-## you need to appropriatly set datastream parameters under """define stream parameters"""
+# you need to appropriatly set datastream parameters under """define stream parameters"""
 model_saved_config = "output/AdaptiveRandomForest/500"
 f = open(model_saved_config + "/report_train.txt", "r")
 out = f.read().split("\n")[4]
@@ -31,6 +31,7 @@ no_hist_vals = config["data_window_size"]
 config.pop("data_window_size")
 # config["drift_detection_method"] = ADWIN(config["drift_detection_method"])
 # config["warning_detection_method"] = ADWIN(config["warning_detection_method"])
+config["random_state"] = None
 regr.set_params(**config)
 
 
@@ -46,9 +47,10 @@ X_train, y_train, X_test_t, y_test_t = data.get_data()
 stream = DataStream(X_test_t, y_test_t)
 
 
-repetitions = 1
+repetitions = 10
 y_pred_list = []
 for _ in range(repetitions):
+    regr.reset()
     stream.restart()
 
     """Warm start"""
@@ -67,9 +69,6 @@ for _ in range(repetitions):
     y_test = np.array(y_test).flatten()
     y_pred_list.append(y_pred)
 
-    # print("y_pred", y_pred.shape)
-    # print("y_test", y_test.shape)
-
 y_pred_avg = np.mean(np.array(y_pred_list), axis=0)
 y_pred_std = np.std(np.array(y_pred_list), axis=0)
 
@@ -85,11 +84,7 @@ print(f"RMSE std: {rmse_std}")
 # print(f"RRMSE: {rmse/rmse_base}")
 
 
-# """Plot"""
-# plt.figure()
-# plt.plot(y_test, '.')
-# plt.plot(y_pred, '.')
-# plt.show()
-
+"""Plot"""
+utils.plot_mean_and_deviations(y_pred_avg, y_pred_std, y_test)
 
 
