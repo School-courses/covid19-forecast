@@ -16,10 +16,10 @@ class OptimizerMultiflow(BaseOptimizer):
     def objective(self, config):
         no_hist_vals = config["data_window_size"]
         config.pop("data_window_size")
-        drift_detection_method = config["drift_detection_method"]
-        warning_detection_method = config["warning_detection_method"]
-        config["drift_detection_method"] = ADWIN(drift_detection_method)
-        config["warning_detection_method"] = ADWIN(warning_detection_method)
+        # drift_detection_method = config["drift_detection_method"]
+        # warning_detection_method = config["warning_detection_method"]
+        # config["drift_detection_method"] = ADWIN(drift_detection_method)
+        # config["warning_detection_method"] = ADWIN(warning_detection_method)
 
         stream, train_data = self.create_stream(no_hist_vals)
         stream.restart()
