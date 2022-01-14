@@ -10,7 +10,7 @@ from skmultiflow.trees import (HoeffdingAdaptiveTreeRegressor,
 from utils.helpers import MultiflowPredictorWrapper
 
 multiflow_algo = {
-    'ARF': AdaptiveRandomForestRegressor,
+    'ARF': AdaptiveRandomForestRegressor(random_state=1),
     'HT': HoeffdingTreeRegressor,
     'HAT': HoeffdingAdaptiveTreeRegressor,
     'STTHT': StackedSingleTargetHoeffdingTreeRegressor,

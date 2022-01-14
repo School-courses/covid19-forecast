@@ -35,6 +35,9 @@ class OptimizerMultiflow(BaseOptimizer):
             y_pred.append(y_p)
             y_test.append(y_t)
 
+        y_pred = np.array(y_pred).flatten()
+        y_test = np.array(y_test).flatten()
+
         rmse = mean_squared_error(y_test, y_pred, squared=False)
         tune.report(mean_loss=rmse)
 

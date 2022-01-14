@@ -4,12 +4,6 @@ from pathlib import Path
 from collections import OrderedDict
 
 
-def plot_data(title="label", *data_list):
-    # plt.figure()
-    plt.title(title)
-    [plt.plot(data) for data in data_list]
-
-
 def get_first_row_with(condition, df):
     """
     utils.get_first_row_with(lambda x: x.day == 6, df_test)
