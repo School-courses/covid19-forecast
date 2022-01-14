@@ -55,7 +55,7 @@ class DummyRegressor():
 class MultiflowPredictorWrapper():
     def __init__(self, model):
         self.model = model
-        self.model = Pipeline([('scaler', StandardScaler()), ('model', self.model)])
+        # self.model = Pipeline([('scaler', StandardScaler()), ('model', self.model)])
         self.X = None
         self.y = None
 
@@ -74,3 +74,5 @@ class MultiflowPredictorWrapper():
             self.X = np.vstack([self.X, X_train])
             self.y = np.vstack([self.y, y_train])
 
+    def set_params(self, **params):
+        self.model.set_params(**params)

@@ -27,7 +27,7 @@ stream = DataStream(X_test, y_test)
 
 """Choose model"""
 regr = AdaptiveRandomForestRegressor(random_state=1)
-regr = helpers.MultiflowPredictorWrapper(SVR())
+# regr = helpers.MultiflowPredictorWrapper(SVR())
 
 
 """Warm start"""
