@@ -23,27 +23,28 @@ regr = AdaptiveRandomForestRegressor()
 
 """Set optimized parameters"""
 # you need to appropriatly set datastream parameters under """define stream parameters"""
-# model_saved_config = "output/AdaptiveRandomForest/2000iter"
-# f = open(model_saved_config + "/report_train.txt", "r")
-# out = f.read().split("\n")[4]
-# config = dict(eval(out, {'OrderedDict': OrderedDict}))
-# no_hist_days = config["data_window_size_days"]
-# no_hist_weeks = config["data_window_size_weeks"]
-# scale_data = config["scale_data"]
-# config.pop("data_window_size_days")
-# config.pop("data_window_size_weeks")
-# config.pop("scale_data")
-# config["random_state"] = None
-# regr.set_params(**config)
+model_saved_config = "output/AdaptiveRandomForest/0117_164400"
+f = open(model_saved_config + "/report_train.txt", "r")
+out = f.read().split("\n")[4]
+config = dict(eval(out, {'OrderedDict': OrderedDict}))
+no_hist_days = config["data_window_size_days"]
+no_hist_weeks = config["data_window_size_weeks"]
+scale_data = config["scale_data"]
+config.pop("data_window_size_days")
+config.pop("data_window_size_weeks")
+config.pop("scale_data")
+config["random_state"] = None
+regr.set_params(**config)
 
 
 """define stream parameters"""
 target_label = "new_cases"
-# begin_test_date = "2021-11-06"
-begin_test_date = "2020-03-07"
-no_hist_days = 3
-no_hist_weeks = 2
-scale_data = None
+begin_test_date = "2021-11-06"
+# begin_test_date = "2020-03-07"
+# no_hist_days = 3
+# no_hist_weeks = 0
+# scale_data = None
+# config = {}
 
 
 """import data and initialize stream"""
@@ -57,11 +58,11 @@ data = Data(
 X_train, y_train, X_test_t, y_test_t = data.get_data()
 stream = DataStream(X_test_t, y_test_t)
 
-
-repetitions = 10
+repetitions = 3
 y_pred_list = []
 for _ in range(repetitions):
     regr.reset()
+    regr.set_params(**config)
     stream.restart()
 
     """Warm start"""
