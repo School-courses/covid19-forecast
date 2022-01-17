@@ -57,6 +57,9 @@ class BaseOptimizer():
             if temp[0] == 'CHOICE':
                 temp.pop(0)
                 tuned_parameters[method_name] = tune.choice(temp)
+            elif temp[0] == 'GRID':
+                temp.pop(0)
+                tuned_parameters[method_name] = tune.grid_search(temp)
             elif len(temp) == 3 and temp[0] == 'LOG_UNIFORM':
                 tuned_parameters[method_name] = tune.loguniform(temp[1], temp[2])
             elif len(temp) == 3 and temp[0] == 'RAND_INT':
@@ -67,14 +70,14 @@ class BaseOptimizer():
         return tuned_parameters
 
     def perform_search(self):
-        algo = HyperOptSearch()
-        algo = ConcurrencyLimiter(algo, max_concurrent=10)
+        # algo = HyperOptSearch()
+        # algo = ConcurrencyLimiter(algo, max_concurrent=10)
 
         scheduler = HyperBandScheduler()
         analysis = tune.run(
             self.objective,
             name="covid_baby",
-            search_alg=algo,
+            # search_alg=algo,
             scheduler=scheduler,
             resources_per_trial={"cpu":1, "gpu":0.1},
             metric="mean_loss",
