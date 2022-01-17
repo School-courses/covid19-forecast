@@ -87,8 +87,15 @@ class BaseOptimizer():
         self.best_config = analysis.best_config
         return analysis
 
-    def create_stream(self, no_hist_vals):
-        data = Data(no_hist_vals, self.target_label, self.root_dir, self.begin_test_date)
+    def create_stream(self, no_hist_days, no_hist_weeks, scale_data):
+        data = Data(
+            no_hist_days=no_hist_days,
+            no_hist_weeks=no_hist_weeks,
+            target_label=self.target_label,
+            root_dir=self.root_dir,
+            begin_test_date=self.begin_test_date,
+            scale_data=scale_data
+        )
         X_train, y_train, X_test, y_test = data.get_data()
         return DataStream(X_test, y_test), (X_train, y_train)
 
