@@ -140,3 +140,5 @@ test_file.py
 *.json
 !readme.txt
 !config_example.json
+
+!config_ARF.json

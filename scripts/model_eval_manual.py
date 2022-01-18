@@ -18,12 +18,13 @@ from data_management.data import Data
 
 """Choose model"""
 regr = AdaptiveRandomForestRegressor()
+# regr = helpers.DummyRegressor()
 # regr = helpers.MultiflowPredictorWrapper(SVR())
 
 
 """Set optimized parameters"""
 # you need to appropriatly set datastream parameters under """define stream parameters"""
-model_saved_config = "output/AdaptiveRandomForest/0117_164400"
+model_saved_config = "output/AdaptiveRandomForest/scale"
 f = open(model_saved_config + "/report_train.txt", "r")
 out = f.read().split("\n")[4]
 config = dict(eval(out, {'OrderedDict': OrderedDict}))
@@ -41,8 +42,8 @@ regr.set_params(**config)
 target_label = "new_cases"
 begin_test_date = "2021-11-06"
 # begin_test_date = "2020-03-07"
-# no_hist_days = 3
-# no_hist_weeks = 0
+# no_hist_days = 0
+# no_hist_weeks = 1
 # scale_data = None
 # config = {}
 
@@ -58,7 +59,7 @@ data = Data(
 X_train, y_train, X_test_t, y_test_t = data.get_data()
 stream = DataStream(X_test_t, y_test_t)
 
-repetitions = 3
+repetitions = 10
 y_pred_list = []
 for _ in range(repetitions):
     regr.reset()
@@ -86,6 +87,7 @@ y_pred_std = np.std(np.array(y_pred_list), axis=0)
 
 
 """Calculate errors"""
+print(model_saved_config)
 rmse_list = [mean_squared_error(y_test, y_pred, squared=False) for y_pred in y_pred_list]
 rmse_avg = np.mean(rmse_list)
 rmse_std = np.std(rmse_list)
