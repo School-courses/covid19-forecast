@@ -47,8 +47,14 @@ def calculate_base_rmse(y_label):
 
 class DummyRegressor():
     def predict(self, x):
-        return [np.sum(x)]
+        return [np.mean(x)]
     def partial_fit(self, x, y):
+        pass
+    def set_params(self, **kwargs):
+        pass
+    def fit(self, X, y):
+        pass
+    def reset(self):
         pass
 
 
