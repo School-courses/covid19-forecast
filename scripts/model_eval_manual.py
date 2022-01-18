@@ -1,6 +1,7 @@
 from collections import OrderedDict
 
 import numpy as np
+from sklearn.ensemble import AdaBoostRegressor, GradientBoostingRegressor
 from sklearn.metrics import mean_squared_error
 from sklearn.svm import SVR
 from skmultiflow.data import DataStream
@@ -19,33 +20,33 @@ def main():
     """Choose model"""
     regr = AdaptiveRandomForestRegressor()
     # regr = helpers.DummyRegressor()
-    # regr = helpers.MultiflowPredictorWrapper(SVR())
+    regr = helpers.MultiflowPredictorWrapper(GradientBoostingRegressor())
 
 
-    """Set optimized parameters"""
-    # you need to appropriatly set datastream parameters under """define stream parameters"""
-    model_saved_config = "output/AdaptiveRandomForest/scale"
-    f = open(model_saved_config + "/report_train.txt", "r")
-    out = f.read().split("\n")[4]
-    config = dict(eval(out, {'OrderedDict': OrderedDict}))
-    no_hist_days = config["data_window_size_days"]
-    no_hist_weeks = config["data_window_size_weeks"]
-    scale_data = config["scale_data"]
-    config.pop("data_window_size_days")
-    config.pop("data_window_size_weeks")
-    config.pop("scale_data")
-    config["random_state"] = None
-    regr.set_params(**config)
+    # """Set optimized parameters"""
+    # # you need to appropriatly set datastream parameters under """define stream parameters"""
+    # model_saved_config = "output/AdaptiveRandomForest/scale"
+    # f = open(model_saved_config + "/report_train.txt", "r")
+    # out = f.read().split("\n")[4]
+    # config = dict(eval(out, {'OrderedDict': OrderedDict}))
+    # no_hist_days = config["data_window_size_days"]
+    # no_hist_weeks = config["data_window_size_weeks"]
+    # scale_data = config["scale_data"]
+    # config.pop("data_window_size_days")
+    # config.pop("data_window_size_weeks")
+    # config.pop("scale_data")
+    # config["random_state"] = None
+    # regr.set_params(**config)
 
 
     """define stream parameters"""
     target_label = "new_cases"
     begin_test_date = "2021-11-06"
     # begin_test_date = "2020-03-07"
-    # no_hist_days = 0
-    # no_hist_weeks = 1
-    # scale_data = None
-    # config = {}
+    no_hist_days = 7
+    no_hist_weeks = 0
+    scale_data = "scale"
+    config = {}
 
 
     """import data and initialize stream"""
@@ -87,7 +88,7 @@ def main():
 
 
     """Calculate errors"""
-    print(model_saved_config)
+    # print(model_saved_config)
     rmse_list = [mean_squared_error(y_test, y_pred, squared=False) for y_pred in y_pred_list]
     rmse_avg = np.mean(rmse_list)
     rmse_std = np.std(rmse_list)

@@ -82,3 +82,6 @@ class MultiflowPredictorWrapper():
 
     def set_params(self, **params):
         self.model.set_params(**params)
+
+    def reset(self):
+        pass
