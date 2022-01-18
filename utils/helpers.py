@@ -61,13 +61,11 @@ class DummyRegressor():
 class MultiflowPredictorWrapper():
     def __init__(self, model):
         self.model = model
-        # self.model = Pipeline([('scaler', StandardScaler()), ('model', self.model)])
         self.X = None
         self.y = None
 
     def fit(self, X_train, y_train):
         self.partial_fit(X_train, y_train)
-        self.model.fit(self.X, self.y)
 
     def predict(self, X_test):
         return self.model.predict(X_test)
@@ -79,6 +77,7 @@ class MultiflowPredictorWrapper():
         else:
             self.X = np.vstack([self.X, X_train])
             self.y = np.vstack([self.y, y_train])
+        self.model.fit(self.X, self.y)
 
     def set_params(self, **params):
         self.model.set_params(**params)

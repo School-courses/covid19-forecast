@@ -42,7 +42,7 @@ def main():
     """define stream parameters"""
     target_label = "new_cases"
     begin_test_date = "2021-11-06"
-    # begin_test_date = "2020-03-07"
+    # begin_test_date = "2020-03-07"  # uncomment for whole stream evaluation
     no_hist_days = 7
     no_hist_weeks = 0
     scale_data = "scale"
