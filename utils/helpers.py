@@ -1,6 +1,7 @@
 
 import numpy as np
 import pandas as pd
+from sklearn.base import clone
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
@@ -59,8 +60,9 @@ class DummyRegressor():
 
 
 class MultiflowPredictorWrapper():
-    def __init__(self, model):
-        self.model = model
+    def __init__(self, model_class):
+        self.model_class = model_class
+        self.model = None
         self.X = None
         self.y = None
 
@@ -77,10 +79,14 @@ class MultiflowPredictorWrapper():
         else:
             self.X = np.vstack([self.X, X_train])
             self.y = np.vstack([self.y, y_train])
-        self.model.fit(self.X, self.y)
+        self.model.fit(self.X, self.y.ravel())
 
     def set_params(self, **params):
         self.model.set_params(**params)
 
     def reset(self):
-        pass
+        self.X = None
+        self.y = None
+        self.model = clone(self.model_class())
+
+
