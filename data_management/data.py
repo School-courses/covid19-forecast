@@ -29,7 +29,7 @@ class Data():
         """ Create base table filled with daily values, target value and date"""
         list_hist_vals = []
         for timestamp in self.df_weekly['date']:
-            end_date = timestamp - pd.DateOffset(7) # 7 day (1 week) offset for week prediction
+            end_date = timestamp - pd.DateOffset(6) # 6 day (1 week) offset for week prediction
             start_date = end_date - pd.DateOffset(self.no_hist_days)
             mask_dates = (self.df_daily["date"] > start_date) & (self.df_daily["date"] <= end_date)
             predictors = self.df_daily[mask_dates].loc[:, self.target_label].to_numpy()
@@ -76,11 +76,11 @@ class Data():
         base_table = self._create_base_table()
         weekly_table = self._create_weekly_table(base_table)
         data_table = pd.merge(base_table, weekly_table, how='inner')
-        data_table = self.scale_data_table(data_table)
+        data_table = self._scale_data_table(data_table)
         return data_table
 
 
-    def scale_data_table(self, data_table):
+    def _scale_data_table(self, data_table):
         if self.scale_data == "scale":
             data_table[self.predictors_col_names] = scale(data_table[self.predictors_col_names])
         elif self.scale_data == "minmax":
