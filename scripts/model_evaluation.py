@@ -18,35 +18,35 @@ from data_management.data import Data
 
 def main():
     """Choose model"""
-    # regr = AdaptiveRandomForestRegressor()
+    regr = AdaptiveRandomForestRegressor()
     # regr = helpers.DummyRegressor()
-    regr = helpers.MultiflowPredictorWrapper(GradientBoostingRegressor)
+    # regr = helpers.MultiflowPredictorWrapper(GradientBoostingRegressor)
 
 
     """Set optimized parameters"""
-    # # you need to appropriatly set datastream parameters under """define stream parameters"""
-    # model_saved_config = "output/AdaptiveRandomForest/scale"
-    # f = open(model_saved_config + "/report_train.txt", "r")
-    # out = f.read().split("\n")[4]
-    # config = dict(eval(out, {'OrderedDict': OrderedDict}))
-    # no_hist_days = config["data_window_size_days"]
-    # no_hist_weeks = config["data_window_size_weeks"]
-    # scale_data = config["scale_data"]
-    # config.pop("data_window_size_days")
-    # config.pop("data_window_size_weeks")
-    # config.pop("scale_data")
-    # config["random_state"] = None
-    # regr.set_params(**config)
+    # you need to appropriatly set datastream parameters under """define stream parameters"""
+    model_saved_config = "output/AdaptiveRandomForest/scale"
+    f = open(model_saved_config + "/report_train.txt", "r")
+    out = f.read().split("\n")[4]
+    config = dict(eval(out, {'OrderedDict': OrderedDict}))
+    no_hist_days = config["data_window_size_days"]
+    no_hist_weeks = config["data_window_size_weeks"]
+    scale_data = config["scale_data"]
+    config.pop("data_window_size_days")
+    config.pop("data_window_size_weeks")
+    config.pop("scale_data")
+    config["random_state"] = None
+    regr.set_params(**config)
 
 
     """define stream parameters"""
     target_label = "new_cases"
     begin_test_date = "2021-11-06"
     # begin_test_date = "2020-03-07"  # uncomment for whole stream evaluation
-    no_hist_days = 7
-    no_hist_weeks = 0
-    scale_data = None
-    config = {"random_state": None}
+    # no_hist_days = 7
+    # no_hist_weeks = 0
+    # scale_data = None
+    # config = {"random_state": None}
 
 
     """import data and initialize stream"""
