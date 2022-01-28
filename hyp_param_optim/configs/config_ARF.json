@@ -24,15 +24,15 @@
                         "drift_detection_method": ["CHOICE", null],
                         "warning_detection_method": ["CHOICE", null],
 
-                        "data_window_size_days": ["GRID", 10],
-                        "data_window_size_weeks": ["GRID", 5],
-                        "scale_data": ["GRID", "scale"]
+                        "data_window_size_days": ["GRID", 7],
+                        "data_window_size_weeks": ["GRID", 2],
+                        "scale_data": ["GRID", "null", "scale"]
                     },
 
     "optimizer": "OptimizerMultiflow",
     "num_samples": 1,
     "save_dir": "output/",
     "server_address": null,
-    "root_dir": "C:\\Users\\janezla\\Documents\\DOCS\\programs\\covid19-forecast"
-
+    "root_dir": "C:\\Users\\lapaj\\OneDrive\\covid19-forecast",
+    "selected_features_pkl_name": "d7w7t0001.pkl"
 }

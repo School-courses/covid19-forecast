@@ -21,11 +21,13 @@ class BaseOptimizer():
         self.tuned_params = self._modify_params(config)
         self.num_samples = config["num_samples"]
         self.root_dir = config["root_dir"]
+        self.selected_features_pkl = config["selected_features_pkl_name"]
         self.save_dir = config.save_dir
         self.target_label = "new_cases"
         self.begin_test_date = "2021-11-06"
         self.best_config = 0
         self.config = config
+        self.feats_names_selected = None
 
     def optimize(self):
         analysis = self.perform_search()
@@ -99,8 +101,18 @@ class BaseOptimizer():
             begin_test_date=self.begin_test_date,
             scale_data=scale_data
         )
+        if self.selected_features_pkl != "" and self.feats_names_selected is None:
+            with open(os.path.join(self.root_dir, "output/features", self.selected_features_pkl), "rb") as file:
+                self.feats_names_selected = pickle.load(file)
+            with open(os.path.join(self.save_dir, self.selected_features_pkl), "wb") as file:
+                pickle.dump(self.feats_names_selected, file)
+
+        if self.feats_names_selected is not None:
+            data.predictors_col_names = self.feats_names_selected
+
         X_train, y_train, X_test, y_test = data.get_data()
         return DataStream(X_test, y_test), (X_train, y_train)
+
 
     @abstractmethod
     def objective(self, config):

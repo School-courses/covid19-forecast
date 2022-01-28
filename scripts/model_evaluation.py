@@ -1,3 +1,4 @@
+import glob
 import os
 import pickle
 from collections import OrderedDict
@@ -27,7 +28,7 @@ def main():
 
     """Set optimized parameters"""
     # you need to appropriatly set datastream parameters under """define stream parameters"""
-    model_saved_config = "output/AdaptiveRandomForest/scale"
+    model_saved_config = "output/AdaptiveRandomForest/nn"
     f = open(model_saved_config + "/report_train.txt", "r")
     out = f.read().split("\n")[4]
     config = dict(eval(out, {'OrderedDict': OrderedDict}))
@@ -40,6 +41,11 @@ def main():
     config["random_state"] = None
     regr.set_params(**config)
 
+    load_selected_features_pkl = glob.glob(model_saved_config + "/*pkl")
+    if load_selected_features_pkl is not []:
+        with open(load_selected_features_pkl[0], "rb") as file:
+            selected_features = pickle.load(file)
+
 
     """define stream parameters"""
     target_label = "new_cases"
@@ -49,7 +55,7 @@ def main():
     # no_hist_weeks = 0
     # scale_data = None
     # config = {"random_state": None}
-    load_selected_features_pkl = "d7w7t0001.pkl"
+    # load_selected_features_pkl = ""
 
 
     """import data and initialize stream"""
@@ -60,9 +66,9 @@ def main():
         begin_test_date=begin_test_date,
         scale_data=scale_data
     )
-    if load_selected_features_pkl != "":
-        with open(os.path.join("output/features", load_selected_features_pkl), "rb") as file:
-            data.predictors_col_names = pickle.load(file)
+
+    if load_selected_features_pkl is not []:
+        data.predictors_col_names = selected_features
 
     X_train, y_train, X_test_t, y_test_t = data.get_data()
     stream = DataStream(X_test_t, y_test_t)

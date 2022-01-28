@@ -13,7 +13,7 @@ def main():
     ### Import data
     target_label = "new_cases"
     no_hist_days = 7
-    no_hist_weeks = 7
+    no_hist_weeks = 2
     begin_test_date = "2025-11-06"
     scale_data = None
 
@@ -38,8 +38,10 @@ def main():
     feats_names = [x[0] for x in sorted_feats]
     feats_importances = [x[1] for x in sorted_feats]
 
+
+    ### Importances
     # print feature importance
-    threshold = 0.0001
+    threshold = 0.001
     feats_names_selected = []
     for feat_n, feat_i in zip(feats_names, feats_importances):
         if feat_i > threshold:
