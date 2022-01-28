@@ -142,3 +142,4 @@ test_file.py
 !config_example.json
 
 !config_ARF.json
+*.pkl

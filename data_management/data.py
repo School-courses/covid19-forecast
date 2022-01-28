@@ -106,7 +106,7 @@ class Data():
             self.df_data_table.to_csv("data/data_table.csv", index=False)
 
         def convert_to_numpy(df):
-            X = df.loc[:, self.predictors_col_names].to_numpy()
+            X = df.reindex(columns = self.predictors_col_names).to_numpy()
             y = df.loc[:, "target"].to_numpy()
             y = np.expand_dims(y, axis = 1)
             return X, y

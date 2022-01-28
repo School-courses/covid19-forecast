@@ -1,3 +1,5 @@
+import os
+import pickle
 from collections import OrderedDict
 
 import numpy as np
@@ -47,6 +49,7 @@ def main():
     # no_hist_weeks = 0
     # scale_data = None
     # config = {"random_state": None}
+    load_selected_features_pkl = "d7w7t0001.pkl"
 
 
     """import data and initialize stream"""
@@ -57,6 +60,10 @@ def main():
         begin_test_date=begin_test_date,
         scale_data=scale_data
     )
+    if load_selected_features_pkl != "":
+        with open(os.path.join("output/features", load_selected_features_pkl), "rb") as file:
+            data.predictors_col_names = pickle.load(file)
+
     X_train, y_train, X_test_t, y_test_t = data.get_data()
     stream = DataStream(X_test_t, y_test_t)
 

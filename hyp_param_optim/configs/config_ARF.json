@@ -24,13 +24,13 @@
                         "drift_detection_method": ["CHOICE", null],
                         "warning_detection_method": ["CHOICE", null],
 
-                        "data_window_size_days": ["GRID", 2, 3],
-                        "data_window_size_weeks": ["GRID", 2],
+                        "data_window_size_days": ["GRID", 10],
+                        "data_window_size_weeks": ["GRID", 5],
                         "scale_data": ["GRID", "scale"]
                     },
 
     "optimizer": "OptimizerMultiflow",
-    "num_samples": 20,
+    "num_samples": 1,
     "save_dir": "output/",
     "server_address": null,
     "root_dir": "C:\\Users\\janezla\\Documents\\DOCS\\programs\\covid19-forecast"
