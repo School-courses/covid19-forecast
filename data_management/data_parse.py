@@ -91,13 +91,3 @@ df_weekly.columns = ['date', 'week', 'new_cases', 'new_deaths'] + col_add_names_
 # Save to CSV
 df_daily.to_csv("data/slovenia_daily.csv", index=False)
 df_weekly.to_csv("data/slovenia_weekly.csv", index=False)
-
-
-
-
-
-
-
-
-
-

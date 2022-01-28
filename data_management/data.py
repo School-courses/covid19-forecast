@@ -1,4 +1,5 @@
 import os
+from functools import reduce
 
 import numpy as np
 import pandas as pd
@@ -72,10 +73,22 @@ class Data():
         return df_weekly_table
 
 
+    def _create_other_table(self):
+        """ Create table with additional informations"""
+        df_other = self.df_weekly.copy()
+        df_other = df_other.drop(columns=["week", "new_cases", "new_deaths"])
+        df_other["date"] = df_other["date"].shift(-1) # predictions from last week
+        df_other = df_other[:-1]
+        col_names = df_other.drop(columns=["date"]).columns.to_list()
+        self.predictors_col_names.extend(col_names)
+        return df_other
+
     def _create_data_table(self):
         base_table = self._create_base_table()
         weekly_table = self._create_weekly_table(base_table)
-        data_table = pd.merge(base_table, weekly_table, how='inner')
+        other_table = self._create_other_table()
+        dfs = [base_table, weekly_table, other_table]
+        data_table = reduce(lambda left, right: pd.merge(left, right, how="inner", on="date"), dfs)
         data_table = self._scale_data_table(data_table)
         return data_table
 

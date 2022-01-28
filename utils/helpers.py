@@ -1,6 +1,7 @@
 
 import numpy as np
 import pandas as pd
+from scipy.stats import pearsonr
 from sklearn.base import clone
 from sklearn.metrics import mean_squared_error
 from sklearn.pipeline import Pipeline
@@ -90,3 +91,55 @@ class MultiflowPredictorWrapper():
         self.model = clone(self.model_class())
 
 
+def best_window_sum(x, y, max_window):
+    # code: https://github.com/julianikulski/bike-sharing/blob/master/bike_sharing_demand.ipynb
+    # get list for all rolling sums between categorical feature with numberical target
+    corr_temp_cust = []
+    for i in range(1, max_window):
+        roll_val = list(x.rolling(i).sum()[i-1:-1])
+        total_cust_ti = list(y[i:])
+        corr, p_val = pearsonr(total_cust_ti, roll_val)
+        corr_temp_cust.append(corr)
+    # get the optimal window size for rolling mean
+    max_val = np.argmax(corr_temp_cust)
+    min_val = np.argmin(corr_temp_cust)
+    opt_corr_min = corr_temp_cust[min_val]
+    opt_corr_max = corr_temp_cust[max_val]
+    results = {max_val+1: opt_corr_max, min_val+1: opt_corr_min}
+    return results
+
+
+def best_window_mean(x, y, max_window):
+    # code: https://github.com/julianikulski/bike-sharing/blob/master/bike_sharing_demand.ipynb
+    # get list for all correlations between a feature and target with different rolling means
+    corr_temp_cust = []
+    for i in range(1, max_window):
+        roll_val = list(x.rolling(i).mean()[i-1:-1])
+        total_cust_ti = list(y[i:])
+        corr, p_val = pearsonr(total_cust_ti, roll_val)
+        corr_temp_cust.append(corr)
+    # get the optimal window size for rolling mean between a feature and target
+    max_val = np.argmax(corr_temp_cust)
+    min_val = np.argmin(corr_temp_cust)
+    opt_corr_min = corr_temp_cust[min_val]
+    opt_corr_max = corr_temp_cust[max_val]
+    results = {max_val+1: opt_corr_max, min_val+1: opt_corr_min}
+    return results
+
+
+def best_window_std(x, y, max_window):
+    # code: https://github.com/julianikulski/bike-sharing/blob/master/bike_sharing_demand.ipynb
+    # get list for all correlations between a feature and target with different rolling standard deviations
+    corr_temp_cust = []
+    for i in range(2, max_window):
+        roll_val = list(x.rolling(i).std()[i-1:-1])
+        total_cust_ti = list(y[i:])
+        corr, p_val = pearsonr(total_cust_ti, roll_val)
+        corr_temp_cust.append(corr)
+    # get the optimal window size for rolling std between a feature and target
+    max_val = np.argmax(corr_temp_cust)
+    min_val = np.argmin(corr_temp_cust)
+    opt_corr_min = corr_temp_cust[min_val]
+    opt_corr_max = corr_temp_cust[max_val]
+    results = {max_val+1: opt_corr_max, min_val+1: opt_corr_min}
+    return results
