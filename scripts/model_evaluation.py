@@ -28,7 +28,7 @@ def main():
 
     """Set optimized parameters"""
     # you need to appropriatly set datastream parameters under """define stream parameters"""
-    model_saved_config = "output/AdaptiveRandomForest/nn"
+    model_saved_config = "output/AdaptiveRandomForest/0129_105604"
     f = open(model_saved_config + "/report_train.txt", "r")
     out = f.read().split("\n")[4]
     config = dict(eval(out, {'OrderedDict': OrderedDict}))
@@ -49,7 +49,7 @@ def main():
 
     """define stream parameters"""
     target_label = "new_cases"
-    begin_test_date = "2021-11-06"
+    begin_test_date = "2021-11-20"
     # begin_test_date = "2020-03-07"  # uncomment for whole stream evaluation
     # no_hist_days = 7
     # no_hist_weeks = 0
@@ -73,7 +73,7 @@ def main():
     X_train, y_train, X_test_t, y_test_t = data.get_data()
     stream = DataStream(X_test_t, y_test_t)
 
-    repetitions = 5
+    repetitions = 1
     y_pred_list = []
     for _ in range(repetitions):
         regr.reset()

@@ -1,5 +1,7 @@
 import glob
 
+import ray
+
 import hyp_param_optim.models as models_
 import hyp_param_optim.optimizers as optimizers_
 from hyp_param_optim.parse_config import ConfigParser
@@ -24,6 +26,10 @@ if __name__ == '__main__':
         config = read_json(cfg_fname)
         # config["num_samples"] = 5
         config = ConfigParser(config)
+        if config['server_address']:
+            ray.init(f"ray://{config['server_address']}")
+        else:
+            ray.init(configure_logging=False, object_store_memory=78643200)
         main(config)
 
 

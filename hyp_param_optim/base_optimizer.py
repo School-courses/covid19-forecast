@@ -24,7 +24,7 @@ class BaseOptimizer():
         self.selected_features_pkl = config["selected_features_pkl_name"]
         self.save_dir = config.save_dir
         self.target_label = "new_cases"
-        self.begin_test_date = "2021-11-06"
+        self.begin_test_date = "2021-11-20"
         self.best_config = 0
         self.config = config
         self.feats_names_selected = None
@@ -72,14 +72,14 @@ class BaseOptimizer():
         return tuned_parameters
 
     def perform_search(self):
-        # algo = HyperOptSearch()
-        # algo = ConcurrencyLimiter(algo, max_concurrent=10)
+        algo = HyperOptSearch()
+        algo = ConcurrencyLimiter(algo, max_concurrent=5)
 
         scheduler = HyperBandScheduler()
         analysis = tune.run(
             self.objective,
             name="covid_baby",
-            # search_alg=algo,
+            search_alg=algo,
             scheduler=scheduler,
             resources_per_trial={"cpu":1, "gpu":0.1},
             metric="mean_loss",

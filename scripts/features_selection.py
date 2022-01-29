@@ -41,7 +41,7 @@ def main():
 
     ### Importances
     # print feature importance
-    threshold = 0.001
+    threshold = 0.002
     feats_names_selected = []
     for feat_n, feat_i in zip(feats_names, feats_importances):
         if feat_i > threshold:
