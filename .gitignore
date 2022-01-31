@@ -143,3 +143,4 @@ test_file.py
 
 !config_ARF.json
 *.pkl
+!Output/AdaptiveRandomForest/top/*

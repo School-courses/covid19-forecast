@@ -1,0 +1,95 @@
+{
+    "name": "AdaptiveRandomForest",
+    "model": {
+        "type": "Model",
+        "args": {
+            "pipeline": [
+                "ARF"
+            ]
+        }
+    },
+    "tuned_parameters": {
+        "n_estimators": [
+            "RAND_INT",
+            20,
+            100
+        ],
+        "max_features": [
+            "RAND_INT",
+            2,
+            15
+        ],
+        "lambda_value": [
+            "RAND_INT",
+            5,
+            50
+        ],
+        "aggregation_method": [
+            "CHOICE",
+            "median"
+        ],
+        "weighted_vote_strategy": [
+            "CHOICE",
+            "mse"
+        ],
+        "random_state": [
+            "CHOICE",
+            1
+        ],
+        "grace_period": [
+            "RAND_INT",
+            10,
+            1000
+        ],
+        "split_confidence": [
+            "LOG_UNIFORM",
+            0.01,
+            10
+        ],
+        "tie_threshold": [
+            "LOG_UNIFORM",
+            0.001,
+            10
+        ],
+        "leaf_prediction": [
+            "CHOICE",
+            "perceptron"
+        ],
+        "learning_ratio_perceptron": [
+            "LOG_UNIFORM",
+            0.0001,
+            1
+        ],
+        "learning_ratio_decay": [
+            "LOG_UNIFORM",
+            1e-07,
+            0.0001
+        ],
+        "drift_detection_method": [
+            "CHOICE",
+            null
+        ],
+        "warning_detection_method": [
+            "CHOICE",
+            null
+        ],
+        "data_window_size_days": [
+            "CHOICE",
+            4
+        ],
+        "data_window_size_weeks": [
+            "CHOICE",
+            2
+        ],
+        "scale_data": [
+            "CHOICE",
+            "null"
+        ]
+    },
+    "optimizer": "OptimizerMultiflow",
+    "num_samples": 300,
+    "save_dir": "output/",
+    "server_address": null,
+    "root_dir": "C:\\Users\\lapaj\\OneDrive\\covid19-forecast",
+    "selected_features_pkl_name": "d7w7t0001.pkl"
+}

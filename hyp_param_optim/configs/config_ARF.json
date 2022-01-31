@@ -24,13 +24,13 @@
                         "drift_detection_method": ["CHOICE", null],
                         "warning_detection_method": ["CHOICE", null],
 
-                        "data_window_size_days": ["CHOICE", 7],
+                        "data_window_size_days": ["CHOICE", 4],
                         "data_window_size_weeks": ["CHOICE", 2],
                         "scale_data": ["CHOICE", "null"]
                     },
 
     "optimizer": "OptimizerMultiflow",
-    "num_samples": 200,
+    "num_samples": 300,
     "save_dir": "output/",
     "server_address": null,
     "root_dir": "C:\\Users\\lapaj\\OneDrive\\covid19-forecast",
