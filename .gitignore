@@ -133,14 +133,15 @@ dmypy.json
 *.tif
 *.jpg
 
-.vscode
-*.csv
+# *.csv
 test_file.py
-*.txt
+# *.txt
 *.json
 !readme.txt
-!config_example.json
 
 !config_ARF.json
-*.pkl
+# *.pkl
 !Output/AdaptiveRandomForest/top/*
+!slovenia_daily
+!slovenia_weekly
+!.vscode/*

@@ -28,7 +28,7 @@ def main():
 
     """Set optimized parameters"""
     # you need to appropriatly set datastream parameters under """define stream parameters"""
-    model_saved_config = "output/AdaptiveRandomForest/0129_105604"
+    model_saved_config = "output/AdaptiveRandomForest/top"
     f = open(model_saved_config + "/report_train.txt", "r")
     out = f.read().split("\n")[4]
     config = dict(eval(out, {'OrderedDict': OrderedDict}))
@@ -73,7 +73,7 @@ def main():
     X_train, y_train, X_test_t, y_test_t = data.get_data()
     stream = DataStream(X_test_t, y_test_t)
 
-    repetitions = 1
+    repetitions = 10
     y_pred_list = []
     for _ in range(repetitions):
         regr.reset()
